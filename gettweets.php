@@ -28,7 +28,8 @@
         $geo['geo'][] = array(
             "lat" => $t['geo']['coordinates'][0],
             "lng" => $t['geo']['coordinates'][1],
-            "time" => $t['created_at']
+            "time" => $t['created_at'],
+            "text" => $t['text']
         );
     }
     echo json_encode($geo);

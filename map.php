@@ -12,13 +12,19 @@
             height: 100%;
         }
         
-        #map {
-            width: 50%;
+        #list {
+            float: left;
+            width: 30%;
         }
         
+        #map {
+            width: 70%;
+            float: right;
+        }               
     </style>
 </head>
 <body>
+<select id="list" multiple></select>
 <div id="map"></div>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>    

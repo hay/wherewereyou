@@ -11,6 +11,22 @@ function getMap(lat, lng) {
     );
 }
 
+function fillList(items) {
+    $.each(items, function() {
+        $("#list").append(''.concat(
+            '<option data-lat="' + this.lat + '" data-lng="' + this.lng + '">',
+            this.text + '</option>'
+        ));
+    });
+    
+    $("#list option").click(function() {
+        var lat = $(this).attr('data-lat'),
+            lng = $(this).attr('data-lng');
+
+        map.panTo(new google.maps.LatLng(lat, lng));
+    });
+}
+
 function putMarkers(markers) {
     $.each(markers, function() {
         new google.maps.Marker({
@@ -34,6 +50,7 @@ function getTweets(cb) {
 $(document).ready(function() {
     getTweets(function(geo) {
         map = getMap(geo[0].lat, geo[0].lng);
+        fillList(geo);
         putMarkers(geo);
     });
 });
