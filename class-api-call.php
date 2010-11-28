@@ -12,7 +12,7 @@ class ApiCall {
                 case "tweets":
                     $call = new Tweets();
                     break;
-                case "reversegeocode":
+                case "reverse.geocode":
                     $call = new ReverseGeocode();
                     break;
                 default:
