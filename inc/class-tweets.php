@@ -18,10 +18,24 @@ class Tweets extends ApiCall {
         
         $this->response = ($tweets) ? $this->parse($tweets) : false;
     }
+    
+    function getUserMeta() {
+        $url = "http://api.twitter.com/1/users/show.json?screen_name=" . $this->user;
+        $r = new HttpRequest("get", $url);
+        if ($r->getError()) {
+            $this->error("Could not get user information");
+        } else {
+            return json_decode($r->getResponse(), true);
+        }
+    }
 
     function parse($tweets) {
+        $user = $this->getUserMeta();
+        
         $geo = array(
             "request_url" => $this->url,
+            "avatar" => $user['profile_image_url'],
+            "name" => $user['name'],
             "geo" => array()
         );
 
@@ -31,6 +45,7 @@ class Tweets extends ApiCall {
                 "lat" => $t['geo']['coordinates'][0],
                 "lng" => $t['geo']['coordinates'][1],
                 "time" => $t['created_at'],
+                "date" => date("Y-m-d", strtotime($t['created_at'])),
                 "text" => $t['text']
             );
         }

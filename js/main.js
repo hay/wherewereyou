@@ -19,19 +19,26 @@ function getMap(lat, lng) {
     );
 }
 
-function formatDate(date) {
+function formatDate(date, format) {
     var d = new Date(date);
-    return ''.concat(
-        d.getDate(), '-',
-        d.getMonth(), '-',
-        d.getFullYear(), ' : ',
-        d.getHours(), ':',
-        d.getMinutes()
-    );
+
+    function f(s) {
+        return (s < 10) ? "0" + s : s;
+    }
+
+    if (format == "date") {
+        return ''.concat(
+            f(d.getDate()), '-',
+            f(d.getMonth()), '-',
+            f(d.getFullYear())
+        );
+    } else if (format == "time") {
+        return f(d.getHours()) + ':' + f(d.getMinutes());
+    }
 }
 
 function getLocation(lat, lng, cb) {
-    var url = "api.php?method=reverse.geocode&lat=" + lat + "&lng=" + lng;
+    var url = "inc/api.php?method=reverse.geocode&lat=" + lat + "&lng=" + lng;
 
     if (debug) url += "&dummy=1";
 
@@ -40,20 +47,41 @@ function getLocation(lat, lng, cb) {
     });
 }
 
+function fillDates(items) {
+    var dates = {};
+
+    $.each(items, function() {
+        var date = formatDate(this.time, "date");
+        if (!dates[date]) {
+            var $li = $($("#list-li").html());
+            $li.find("h2 time").html(date);
+            $li.attr('data-date', date);
+            $("#list ul").append($li);
+            dates[date] = true;
+        }
+    });
+}
 
 function fillList(items) {
     $.each(items, function() {
         // Do JSON calls to get the proper address
-        var self = this;
+        var self = this,
+            $loc = $($("#list-loc").html()),
+            date = formatDate(self.time, "date"),
+            time = formatDate(self.time, "time");
+
         getLocation(this.lat, this.lng, function(address) {
-            $("#list").append(''.concat(
-                '<option data-lat="' + self.lat + '" data-lng="' + self.lng + '">',
-                formatDate(self.time) + ': ' + address + '</option>'
-            ));
+            $loc.find(".time").html(time);
+            $loc.find(".place").html(address);
+            $loc.attr('data-lat', self.lat);
+            $loc.attr('data-lng', self.lng);
+
+            // Search for the correct date and add it there
+            $("#list li[data-date='" + date + "'] table").append($loc);
         });
     });
 
-    $("#list option").click(function() {
+    $("#list .loc").click(function() {
         var lat = $(this).attr('data-lat'),
             lng = $(this).attr('data-lng');
 
@@ -80,7 +108,7 @@ function putMarkers(markers) {
 }
 
 function getTweets(user, cb) {
-    var url = "api.php?method=tweets&user=" + user;
+    var url = "inc/api.php?method=tweets&user=" + user;
     if (debug) url += "&local=1";
 
     $.getJSON(url, function(d) {
@@ -88,6 +116,10 @@ function getTweets(user, cb) {
             alert(d.error);
             return false;
         }
+
+        // Fill the profile in the list
+        $("#list img").attr('src', d.avatar);
+        $("#list h1").html(d.name);
 
         var geo = [];
         $.each(d.geo, function() {
@@ -101,14 +133,16 @@ $(document).ready(function() {
     $("#lookup").click(function(e) {
         e.preventDefault();
         loading(true);
-        
+
         var user = $("#user").val();
         debug = window.location.search.indexOf("debug") !== -1;
         getTweets(user, function(geo) {
             geocoder = new google.maps.Geocoder();
             map = getMap(geo[0].lat, geo[0].lng);
+            fillDates(geo);
             fillList(geo);
             putMarkers(geo);
+            $("#list").fadeIn();
             loading(false);
         });
     });

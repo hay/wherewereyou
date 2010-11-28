@@ -44,13 +44,55 @@ h1, h2 {
 }
 
 #map {
-    width: 70%;
+    width: 65%;
     float: right;
 }
 
 footer {
     margin-top: 30px;
 }
+
+#avatar {
+    width: 60px;
+    float: left;
+    margin: 0 10px 10px 0;
+    line-height: 50px;
+}
+
+#list h1 {
+    float: left;
+}
+
+#list table {
+    margin-top: 5px;
+    clear: both;
+}
+
+#list table td {
+    padding: 2px 5px;
+}
+
+#list .loc:hover {
+    background: #0970b2;
+    color: white;
+}   
+
+#list, #list h2, #list table {
+    width: 100%;
+}
+
+#list li {
+    margin-bottom: 20px;
+}
+
+#list h2 {
+    font-size: 18px;
+    background: #999;
+    color: white;
+    padding: 3px 5px;
+    margin-bottom: 5px;
+}
+
 
 /* From CSS3 buttons */
 /* http://ubuwaits.github.com/css3-buttons/ */
