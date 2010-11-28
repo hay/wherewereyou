@@ -151,6 +151,11 @@ $(document).ready(function() {
             fillList(geo);
             putMarkers(geo);
             $("#list").fadeIn();
+            // For some reason Google Maps sets this back to 'relative..' and 
+            // i need a timer to fix it.. Weird stuff
+            setTimeout(function() {
+                $("#map").css('position', 'fixed');
+            }, 100);
             loading(false);
         });
     });
