@@ -12,7 +12,7 @@
             height: 100%;
         }
         
-        #list {
+        #controls {
             float: left;
             width: 30%;
         }
@@ -24,7 +24,11 @@
     </style>
 </head>
 <body>
-<select id="list" multiple></select>
+<div id="controls">
+    <input id="user" value="huskyr" />
+    <button id="lookup">Look up</button>
+    <select id="list" multiple></select>
+</div>
 <div id="map"></div>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>    

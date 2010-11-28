@@ -32,4 +32,9 @@
             "text" => $t['text']
         );
     }
+    
+    if (empty($geo['geo'])) {
+        $geo = array("error" => "No tweets with geoinformation");
+    }
+    
     echo json_encode($geo);
