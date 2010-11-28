@@ -72,7 +72,8 @@ function fillList(items) {
 
         getLocation(this.lat, this.lng, function(address) {
             $loc.find(".time").html(time);
-            $loc.find(".place").html(address);
+            $loc.find(".place .name").html(self.place_name);
+            $loc.find(".place .address").html(address);
             $loc.attr('data-lat', self.lat);
             $loc.attr('data-lng', self.lng);
 
@@ -81,7 +82,7 @@ function fillList(items) {
         });
     });
 
-    $("#list .loc").click(function() {
+    $("#list .loc").live('click', function() {
         var lat = $(this).attr('data-lat'),
             lng = $(this).attr('data-lng');
 

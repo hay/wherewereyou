@@ -48,7 +48,10 @@
 <script id="list-loc" type="text/html">
     <tr class="loc" data-lat="" data-lng="">
         <td class="time"></td>
-        <td class="place"></td>
+        <td class="place">
+            <span class="name"></span><br />
+            <span class="address"></span>
+        </td>
     </tr>
 </script>
 

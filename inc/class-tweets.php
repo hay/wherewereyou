@@ -46,7 +46,8 @@ class Tweets extends ApiCall {
                 "lng" => $t['geo']['coordinates'][1],
                 "time" => $t['created_at'],
                 "date" => date("Y-m-d", strtotime($t['created_at'])),
-                "text" => $t['text']
+                "text" => $t['text'],
+                "place_name" => $t['place']['full_name']
             );
         }
 
