@@ -1,24 +1,40 @@
 (function($) {
 var map;
 
-function getMap() {
+function getMap(lat, lng) {
     return new google.maps.Map(
         document.getElementById("map"), {
             zoom: 8,
-            center: new google.maps.LatLng(-34.397, 150.644),
+            center: new google.maps.LatLng(lat, lng),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
 }
 
-function getTweets() {
-    $.getJSON("gettweets.php", function(d) {
-        console.log(d);
+function putMarkers(markers) {
+    $.each(markers, function() {
+        new google.maps.Marker({
+            position: new google.maps.LatLng(this.lat, this.lng),
+            map: map,
+            title : this.time
+        });
+    });
+}
+
+function getTweets(cb) {
+    $.getJSON("gettweets.php?user=huskyr&local=1", function(d) {
+        var geo = [];
+        $.each(d.geo, function() {
+            geo.push(this);
+        });
+        cb(geo);
     });
 }
 
 $(document).ready(function() {
-    map = getMap();
-    getTweets();
+    getTweets(function(geo) {
+        map = getMap(geo[0].lat, geo[0].lng);
+        putMarkers(geo);
+    });
 });
 })(jQuery);
