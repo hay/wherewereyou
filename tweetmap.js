@@ -1,5 +1,5 @@
 (function($) {
-var map;
+var map, gecoder;
 
 function getMap(lat, lng) {
     return new google.maps.Map(
@@ -24,16 +24,16 @@ function formatDate(date) {
 
 function getLocation(lat, lng) {
     // Not working, but why ?
-    return;
+    // return;
     
-    var geocoder = new google.maps.Geocoder(),
-        loc = new google.maps.LatLng(lat, lng);
+    var loc = new google.maps.LatLng(lat, lng);
         
     geocoder.geocode({
         "latLng" : loc
     }, function(results, status) {
+        console.log('hoi', results);
         if (results) {
-            return results[0].formatted_address;
+            return results[1].formatted_address;
         } else {
             return "Unknown location";
         }
@@ -76,7 +76,13 @@ function putMarkers(markers) {
 }
 
 function getTweets(user, cb) {
-    $.getJSON("gettweets.php?user=" + user, function(d) {
+    var url = "api.php?method=tweets&user=" + user;
+    
+    if (window.location.search.indexOf("debug") !== -1) {
+        url += "&local=1";
+    }
+    
+    $.getJSON(url, function(d) {
         if (d.error) {
             alert(d.error);
             return false;
@@ -94,6 +100,7 @@ $(document).ready(function() {
     $("#lookup").click(function() {
         var user = $("#user").val();
         getTweets(user, function(geo) {
+            geocoder = new google.maps.Geocoder();
             map = getMap(geo[0].lat, geo[0].lng);
             fillList(geo);
             putMarkers(geo);
