@@ -46,6 +46,8 @@ h1, h2 {
 #map {
     width: 65%;
     float: right;
+    position: fixed;
+    right: 0;
 }
 
 footer {
@@ -79,7 +81,7 @@ footer {
 }
 
 #list .loc:hover {
-    border: 2px solid #999;
+    background: #ddd;
     cursor: pointer;
 }   
 

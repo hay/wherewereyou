@@ -87,6 +87,7 @@ function fillList(items) {
             lng = $(this).attr('data-lng');
 
         map.panTo(new google.maps.LatLng(lat, lng));
+        map.setZoom(16);
     });
 }
 
@@ -115,6 +116,7 @@ function getTweets(user, cb) {
     $.getJSON(url, function(d) {
         if (d.error) {
             alert(d.error);
+            loading(false);
             return false;
         }
 
@@ -133,6 +135,11 @@ function getTweets(user, cb) {
 $(document).ready(function() {
     $("#lookup").click(function(e) {
         e.preventDefault();
+        
+        // Delete the old stuff
+        $("#list").find("img").attr('src', '').end().find("h1, ul").empty();
+        
+        
         loading(true);
 
         var user = $("#user").val();
