@@ -1,6 +1,14 @@
 (function($) {
 var map, gecoder, debug;
 
+function loading(b) {
+    if (b) {
+        $("#spinner").show();
+    } else {
+        $("#spinner").hide();
+    }
+}
+
 function getMap(lat, lng) {
     return new google.maps.Map(
         document.getElementById("map"), {
@@ -90,7 +98,10 @@ function getTweets(user, cb) {
 }
 
 $(document).ready(function() {
-    $("#lookup").click(function() {
+    $("#lookup").click(function(e) {
+        e.preventDefault();
+        loading(true);
+        
         var user = $("#user").val();
         debug = window.location.search.indexOf("debug") !== -1;
         getTweets(user, function(geo) {
@@ -98,6 +109,7 @@ $(document).ready(function() {
             map = getMap(geo[0].lat, geo[0].lng);
             fillList(geo);
             putMarkers(geo);
+            loading(false);
         });
     });
 });
