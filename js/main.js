@@ -114,7 +114,11 @@ function putMarkers(markers) {
 
         google.maps.event.addListener(m, 'click', function() {
             var iw = new google.maps.InfoWindow({
-                "content" : formatDate(self.time) + '<br />' + self.text
+                "content" : ''.concat(
+                    formatDate(self.time, "date"), ', ',
+                    formatDate(self.time, "time"), '<br />',
+                    self.text
+                )
             });
             iw.open(map, m);
         });
