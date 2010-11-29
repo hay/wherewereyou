@@ -14,7 +14,18 @@ function getMap(lat, lng) {
         document.getElementById("map"), {
             zoom: 8,
             center: new google.maps.LatLng(lat, lng),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            // Position controls on the right side of the screen
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.BOTTOM
+            },
+            navigationControl: true,
+            navigationControlOptions: {
+                style: google.maps.NavigationControlStyle.ZOOM_PAN,
+                position: google.maps.ControlPosition.TOP_RIGHT
+            }
         }
     );
 }

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="http://static.haykranen.nl/fonts/klill/style.css" />
 </head>
 <body>
+<div id="map"></div>
+
 <div id="controls">
     <h1>Where were you?</h1>
     <h2>Enter your Twitter username to view all the places you've been on a map</h2>
@@ -33,7 +35,6 @@
         </a>
     </footer>
 </div>
-<div id="map"></div>
 
 <script id="list-li" type="text/html">
     <li data-date="">
