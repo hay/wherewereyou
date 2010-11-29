@@ -19,6 +19,13 @@ function getMap(lat, lng) {
     );
 }
 
+function getDay(day) {
+    var days = [
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ]
+    return days[day];
+}
+
 function formatDate(date, format) {
     var d = new Date(date);
 
@@ -28,8 +35,9 @@ function formatDate(date, format) {
 
     if (format == "date") {
         return ''.concat(
+            getDay(d.getDay()), ' ',
             f(d.getDate()), '-',
-            f(d.getMonth()), '-',
+            f(d.getMonth() + 1), '-',
             f(d.getFullYear())
         );
     } else if (format == "time") {
@@ -55,7 +63,7 @@ function fillDates(items) {
         if (!dates[date]) {
             var $li = $($("#list-li").html());
             $li.find("h2 time").html(date);
-            $li.attr('data-date', date);
+            $li.attr('data-date', this.date);
             $("#list ul").append($li);
             dates[date] = true;
         }
@@ -78,7 +86,12 @@ function fillList(items) {
             $loc.attr('data-lng', self.lng);
 
             // Search for the correct date and add it there
-            $("#list li[data-date='" + date + "'] table").append($loc);
+            $("#list li").each(function() {
+                if ($(this).attr('data-date') == self.date) {
+                    $(this).find("table").append($loc);
+                    return false;
+                }
+            });
         });
     });
 
@@ -135,11 +148,11 @@ function getTweets(user, cb) {
 $(document).ready(function() {
     $("#lookup").click(function(e) {
         e.preventDefault();
-        
+
         // Delete the old stuff
         $("#list").find("img").attr('src', '').end().find("h1, ul").empty();
-        
-        
+
+
         loading(true);
 
         var user = $("#user").val();
@@ -151,11 +164,12 @@ $(document).ready(function() {
             fillList(geo);
             putMarkers(geo);
             $("#list").fadeIn();
-            // For some reason Google Maps sets this back to 'relative..' and 
+
+            // For some reason Google Maps sets this back to 'relative..' and
             // i need a timer to fix it.. Weird stuff
-            setTimeout(function() {
+            google.maps.event.addListener(map, 'tilesloaded', function() {
                 $("#map").css('position', 'fixed');
-            }, 100);
+            });
             loading(false);
         });
     });
