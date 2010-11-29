@@ -23,6 +23,29 @@ html, body {
     border-radius: 0 0 30px 0;
 }
 
+#fold {
+    position: absolute;
+    left: 100%;
+    top: 20px;
+    width: 20px;
+    height: 30px;
+    padding-left: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 30px;
+    -webkit-border-radius: 0 5px 5px 0;
+    -moz-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
+    line-height: 25px;
+    color: #999;
+    cursor: pointer;
+}
+
+    #fold:hover {
+        background: white;
+        border: 1px solid #999;
+        border-left: none;
+    }
+
 a {
     text-decoration: none;
 }

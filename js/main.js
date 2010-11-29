@@ -161,6 +161,21 @@ function getTweets(user, cb) {
 }
 
 $(document).ready(function() {
+    $("#fold").toggle(
+        function() {
+            $(this).html("&raquo;");
+            $("#controls").animate({
+                "left" : "-32%"
+            });
+        },
+        function() {
+            $(this).html("&laquo;");
+            $("#controls").animate({
+                "left" : "0%"
+            });
+        }
+    );
+
     $("#lookup").click(function(e) {
         e.preventDefault();
 
@@ -178,7 +193,7 @@ $(document).ready(function() {
             fillDates(geo);
             fillList(geo);
             putMarkers(geo);
-            $("#list").fadeIn();
+            $("#list, #fold").fadeIn();
 
             // For some reason Google Maps sets this back to 'relative..' and
             // i need a timer to fix it.. Weird stuff

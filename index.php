@@ -34,6 +34,8 @@
             <p>A project coded by Hay Kranen</p>
         </a>
     </footer>
+    
+    <div id="fold" class="hide">&laquo;</div>
 </div>
 
 <script id="list-li" type="text/html">
