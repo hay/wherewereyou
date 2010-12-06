@@ -31,7 +31,7 @@ class Tweets extends ApiCall {
 
     function parse($tweets) {
         $user = $this->getUserMeta();
-        
+
         $geo = array(
             "request_url" => $this->url,
             "avatar" => $user['profile_image_url'],
@@ -49,7 +49,7 @@ class Tweets extends ApiCall {
                 "text" => $t['text'],
                 "place_name" => $t['place']['full_name']
             );
-        }
+        }       
 
         if (empty($geo['geo'])) {
             $this->error("No tweets with geoinformation");

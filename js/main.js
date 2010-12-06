@@ -152,7 +152,7 @@ function showLocation() {
                 lng = pos.coords.longitude;
 
             addMarker(lat, lng, "You're here now!");
-            panAndZoom(lat, lng, 16);
+            panAndZoom(lat, lng, 20);
             loading(false);
         },
         function () {
