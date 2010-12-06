@@ -47,6 +47,8 @@ class Tweets extends ApiCall {
                 "time" => $t['created_at'],
                 "date" => date("Y-m-d", strtotime($t['created_at'])),
                 "text" => $t['text'],
+                "id_str" => $t['id_str'],
+                "user" => $this->user,
                 "place_name" => $t['place']['full_name']
             );
         }       

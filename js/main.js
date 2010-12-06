@@ -110,7 +110,7 @@ function fillList(items) {
         var lat = $(this).attr('data-lat'),
             lng = $(this).attr('data-lng');
 
-        panAndZoom(lat, lng, 16);
+        panAndZoom(lat, lng, 19);
     });
 }
 
@@ -139,7 +139,12 @@ function putMarkers(markers) {
         addMarker(this.lat, this.lng, ''.concat(
             formatDate(self.time, "date"), ', ',
             formatDate(self.time, "time"), '<br />',
-            self.text
+            self.text,            
+            '<br /><br /><a href="http://twitter.com/',
+            self.user,
+            '/status/',
+            self.id_str,
+            '">Original tweet</a>'
         ));
     });
 }
