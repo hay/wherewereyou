@@ -110,31 +110,55 @@ function fillList(items) {
         var lat = $(this).attr('data-lat'),
             lng = $(this).attr('data-lng');
 
-        map.panTo(new google.maps.LatLng(lat, lng));
-        map.setZoom(16);
+        panAndZoom(lat, lng, 16);
+    });
+}
+
+function panAndZoom(lat, lng, zoom) {
+    map.panTo(new google.maps.LatLng(lat, lng));
+    map.setZoom(zoom);
+}
+
+function addMarker(lat, lng, infowindow) {
+    var m = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map: map
+    });
+
+    google.maps.event.addListener(m, 'click', function() {
+        var iw = new google.maps.InfoWindow({
+            "content" : infowindow
+        });
+        iw.open(map, m);
     });
 }
 
 function putMarkers(markers) {
     $.each(markers, function() {
         var self = this;
-        var m = new google.maps.Marker({
-            position: new google.maps.LatLng(this.lat, this.lng),
-            map: map
-        });
-
-        google.maps.event.addListener(m, 'click', function() {
-            var iw = new google.maps.InfoWindow({
-                "content" : ''.concat(
-                    formatDate(self.time, "date"), ', ',
-                    formatDate(self.time, "time"), '<br />',
-                    self.text
-                )
-            });
-            iw.open(map, m);
-        });
-
+        addMarker(this.lat, this.lng, ''.concat(
+            formatDate(self.time, "date"), ', ',
+            formatDate(self.time, "time"), '<br />',
+            self.text
+        ));
     });
+}
+
+function showLocation() {
+    loading(true);
+    navigator.geolocation.getCurrentPosition(
+        function (pos) {
+            var lat = pos.coords.latitude,
+                lng = pos.coords.longitude;
+
+            addMarker(lat, lng, "You're here now!");
+            panAndZoom(lat, lng, 16);
+            loading(false);
+        },
+        function () {
+            alert("Could not get your location :(");
+        }
+    );
 }
 
 function getTweets(user, cb) {
@@ -202,6 +226,11 @@ $(document).ready(function() {
             });
             loading(false);
         });
+    });
+
+    $("#geolocation").click(function(e) {
+        e.preventDefault();
+        showLocation();
     });
 });
 })(jQuery);

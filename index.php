@@ -27,6 +27,9 @@
 
         <ul></ul>
     </div>
+    
+    <h1><a id="geolocation" href="">Show me we're i'm now</a></h1>
+    <img id="spinner" src="img/spinner.gif" alt="Loading..." class="hide" />
 
     <footer>
         <a href="http://www.haykranen.nl/?utm_source=wherewereyou&utm_medium=site&utm_campaign=logo">
